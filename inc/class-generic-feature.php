@@ -1,11 +1,12 @@
 <?php
 /**
  ** Generic Feature
+ ** Version 1.0.0
  **/
 define( 'GENERIC_FEATURE_VERSION', 1 );
 class Generic_Feature {
 
-	const VERSION_OPTION  = 'generic_features_version';
+	const OPTION_VERSION  = 'generic_features_version';
 	const SCRIPTS_VERSION = 1;
 
 	/* Post Type */
@@ -15,7 +16,7 @@ class Generic_Feature {
 	const POST_TYPE_SINGULAR = 'Feature';
 	const POST_TYPE_CAP      = 'post';
 
-	var $version = false;
+	protected $version = false;
 
 	/* Define and register singleton */
 	private static $instance = false;
@@ -28,6 +29,8 @@ class Generic_Feature {
 
 	/**
 	 * Clone
+	 *
+	 * @since 1.0.0
 	 */
 	private function __clone() { }
 
@@ -35,15 +38,23 @@ class Generic_Feature {
 	 * Add actions and filters
 	 *
 	 * @uses add_action, add_filter
+	 * @since 1.0.0
 	 */
 	function __construct() {
 
-		// Versioning
-		if( $version = get_option( self::VERSION_OPTION, false ) ) {
+		// Version Check
+		if( $version = get_option( self::OPTION_VERSION, false ) ) {
 			$this->version = $version;
 		} else {
 			$this->version = GENERIC_FEATURE_VERSION;
-			add_option( self::VERSION_OPTION, $this->version );
+			add_option( self::OPTION_VERSION, $this->version );
+		}
+
+		// Add Meta Boxes
+		if( '3.0' <= $wp_version ) { // The `add_meta_boxes` action hook did not exist until WP 3.0
+			add_action( 'add_meta_boxes', array( $this, 'action_add_meta_boxes' ) );
+		} else {
+			add_action( 'admin_init', array( $this, 'action_add_meta_boxes' ) );
 		}
 
 		add_action( 'init', array( $this, 'action_init_check_version' ) );
@@ -51,9 +62,31 @@ class Generic_Feature {
 	}
 
 	/**
-	 * Register the post types
+	 * Add the Generic Feature metabox
+	 *
+	 * @uses add_meta_box
+	 * @since 1.0.0
+	 * @return null
+	 */
+	function action_add_meta_boxes() {
+		add_meta_box( self::POST_TYPE_SLUG . '-metabox', self::POST_TYPE_SINGULAR . __( ' Meta Box' ), array( $this, 'render_metabox' ), self::POST_TYPE_SLUG, 'side', 'default' );
+	}
+
+	/**
+	 * Remder the Generic Feature metabox
+	 *
+	 * @since 1.0.0
+	 * @return null
+	 */
+	function render_metabox() {
+		echo '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada ullamcorper.</p>';
+	}
+
+	/**
+	 * Register custom post type(s)
 	 *
 	 * @uses register_post_type
+	 * @since 1.0.0
 	 * @return null
 	 */
 	public function action_init_register_post_types() {
@@ -79,14 +112,17 @@ class Generic_Feature {
 	}
 
 	/**
-	 * Version Checking
+	 * Version Check
+	 *
+	 * @since 1.0.0
 	 */
 	function action_init_check_version() {
-		// Check if the version and make necessary changes
-		if ( $this->version !=  GENERIC_FEATURE_VERSION ) {
-			// Do version upgrade tasks
-			update_option( self::VERSION_OPTION, GENERIC_FEATURE_VERSION );
+		// Check if the version has changed and if so perform the necessary actions
+		if ( ! isset( $this->version ) || $this->version <  GENERIC_FEATURE_VERSION ) {
+			// Do version upgrade tasks here
+			update_option( self::OPTION_VERSION, GENERIC_FEATURE_VERSION );
 		}
 	}
+
 } // Class
 Generic_Feature::instance();
