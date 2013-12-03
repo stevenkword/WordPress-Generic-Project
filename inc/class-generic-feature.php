@@ -6,14 +6,13 @@
 define( 'GENERIC_FEATURE_VERSION', 1 );
 class Generic_Feature {
 
-	const OPTION_VERSION  = 'generic_features_version';
+	const OPTION_VERSION  = 'generic_feature_version';
 	const SCRIPTS_VERSION = 1;
 
 	/* Post Type */
-	const POST_TYPE          = 'generic_feature';
-	const POST_TYPE_SLUG     = 'feature';
-	const POST_TYPE_NAME     = 'Features';
-	const POST_TYPE_SINGULAR = 'Feature';
+	const POST_TYPE_SLUG     = 'generic-feature';
+	const POST_TYPE_NAME     = 'Generic Features';
+	const POST_TYPE_SINGULAR = 'Generic Feature';
 	const POST_TYPE_CAP      = 'post';
 
 	protected $version = false;
