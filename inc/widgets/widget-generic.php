@@ -9,7 +9,7 @@ class Generic_Widget extends WP_Widget {
 	const OPTION_VERSION  = 'generic_widget_version';
 	const SCRIPTS_VERSION = 1;
 
-	protected $version = false;
+	private $version = false;
 
 	/* Define and register singleton */
 	private static $instance = false;

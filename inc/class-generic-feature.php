@@ -15,7 +15,7 @@ class Generic_Feature {
 	const POST_TYPE_SINGULAR = 'Generic Feature';
 	const POST_TYPE_CAP      = 'post';
 
-	protected $version = false;
+	private $version = false;
 
 	/* Define and register singleton */
 	private static $instance = false;
