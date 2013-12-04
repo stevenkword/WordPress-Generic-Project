@@ -33,7 +33,7 @@ class Generic_Feature {
 	 */
 	private function __clone() { }
 
-	/*
+	/**
 	 * Add actions and filters
 	 *
 	 * @uses add_action, add_filter
@@ -58,6 +58,19 @@ class Generic_Feature {
 
 		add_action( 'init', array( $this, 'action_init_check_version' ) );
 		add_action( 'init', array( $this, 'action_init_register_post_types' ) );
+	}
+
+	/**
+	 * Version Check
+	 *
+	 * @since 1.0.0
+	 */
+	function action_init_check_version() {
+		// Check if the version has changed and if so perform the necessary actions
+		if ( ! isset( $this->version ) || $this->version <  GENERIC_FEATURE_VERSION ) {
+			// Do version upgrade tasks here
+			update_option( self::OPTION_VERSION, GENERIC_FEATURE_VERSION );
+		}
 	}
 
 	/**
@@ -108,19 +121,6 @@ class Generic_Feature {
 			'hierarchical'    => true,
 			'supports'        => array( 'title', 'editor', 'page-attributes', 'thumbnail' ),
 		) );
-	}
-
-	/**
-	 * Version Check
-	 *
-	 * @since 1.0.0
-	 */
-	function action_init_check_version() {
-		// Check if the version has changed and if so perform the necessary actions
-		if ( ! isset( $this->version ) || $this->version <  GENERIC_FEATURE_VERSION ) {
-			// Do version upgrade tasks here
-			update_option( self::OPTION_VERSION, GENERIC_FEATURE_VERSION );
-		}
 	}
 
 } // Class

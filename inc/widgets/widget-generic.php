@@ -27,7 +27,7 @@ class Generic_Widget extends WP_Widget {
 	 */
 	private function __clone() { }
 
-	/*
+	/**
 	 * Add actions and filters
 	 *
 	 * @uses add_action, add_filter
@@ -43,6 +43,19 @@ class Generic_Widget extends WP_Widget {
 		} else {
 			$this->version = GENERIC_WIDGET_VERSION;
 			add_option( self::OPTION_VERSION, $this->version );
+		}
+	}
+
+	/**
+	 * Version Checking
+	 *
+	 * @since 1.0.0
+	 */
+	function action_init_check_version() {
+		// Check if the version has changed and if so perform the necessary actions
+		if ( ! isset( $this->version ) || $this->version <  GENERIC_WIDGET_VERSION ) {
+			// Do version upgrade tasks here
+			update_option( self::OPTION_VERSION, GENERIC_WIDGET_VERSION );
 		}
 	}
 
@@ -71,19 +84,6 @@ class Generic_Widget extends WP_Widget {
 	 */
 	public function update( $new_instance, $old_instance ) {
 		// processes widget options to be saved
-	}
-
-	/**
-	 * Version Checking
-	 *
-	 * @since 1.0.0
-	 */
-	function action_init_check_version() {
-		// Check if the version has changed and if so perform the necessary actions
-		if ( ! isset( $this->version ) || $this->version <  GENERIC_WIDGET_VERSION ) {
-			// Do version upgrade tasks here
-			update_option( self::OPTION_VERSION, GENERIC_WIDGET_VERSION );
-		}
 	}
 
 } // Class
