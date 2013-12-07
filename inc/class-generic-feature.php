@@ -28,6 +28,13 @@ class Generic_Feature {
 	}
 
 	/**
+	 * Constructor
+	 *
+	 * @since 1.0.0
+	 */
+	private function __construct() { }
+
+	/**
 	 * Clone
 	 *
 	 * @since 1.0.0
@@ -40,7 +47,7 @@ class Generic_Feature {
 	 * @uses add_action, add_filter
 	 * @since 1.0.0
 	 */
-	function __construct() {
+	function setup() {
 
 		// Version Check
 		if( $version = get_option( self::OPTION_VERSION, false ) ) {
