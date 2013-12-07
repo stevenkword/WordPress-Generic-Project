@@ -30,6 +30,14 @@ class Generic_Feature {
 	/**
 	 * Constructor
 	 *
+     *        __
+     *       //\\`'-.___
+     *      //  \\  _(=()__
+     *      Y    \\//~//.--|
+     *      :    /\\~~//_  |
+     *     _L   |_((_|___L_|
+     *    (/\) (____(_______)
+     *
 	 * @since 1.0.0
 	 */
 	private function __construct() { }
