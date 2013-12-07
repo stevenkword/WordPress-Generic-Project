@@ -9,7 +9,7 @@ class Generic_Feature {
 	const OPTION_VERSION  = 'generic_feature_version';
 	const SCRIPTS_VERSION = 1;
 
-	/* Post Type */
+	// Post Types
 	const POST_TYPE_SLUG     = 'generic-feature';
 	const POST_TYPE_NAME     = 'Generic Features';
 	const POST_TYPE_SINGULAR = 'Generic Feature';
@@ -17,11 +17,12 @@ class Generic_Feature {
 
 	private $version = false;
 
-	/* Define and register singleton */
+	// Define and register singleton
 	private static $instance = false;
 	public static function instance() {
 		if( ! self::$instance ) {
-			self::$instance = new Generic_Feature;
+			self::$instance = new self;
+			self::$instance->setup();
 		}
 		return self::$instance;
 	}
