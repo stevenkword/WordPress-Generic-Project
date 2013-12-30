@@ -3,11 +3,12 @@
  ** Generic Feature
  ** Version 1.0.0
  **/
-define( 'GENERIC_FEATURE_VERSION', 1 );
 class Generic_Feature {
 
-	const OPTION_VERSION  = 'generic_feature_version';
-	const SCRIPTS_VERSION = 1;
+	// Version
+	const VERSION            = '1.0.0';
+	const VERSION_OPTION     = 'generic_feature_version';
+	const REVISION           = '20131230';
 
 	// Post Types
 	const POST_TYPE_SLUG     = 'generic-feature';
@@ -15,13 +16,20 @@ class Generic_Feature {
 	const POST_TYPE_SINGULAR = 'Generic Feature';
 	const POST_TYPE_CAP      = 'post';
 
-	private $version = false;
+	private $version         = false;
 
-	// Define and register singleton
 	private static $instance = false;
-	public static function instance() {
-		if( ! self::$instance ) {
+
+	/**
+	 * Implement singleton
+	 *
+	 * @uses self::setup
+	 * @return self
+	 */
+	public static function get_instance() {
+		if ( ! is_a( self::$instance, __CLASS__ ) ) {
 			self::$instance = new self;
+
 			self::$instance->setup();
 		}
 		return self::$instance;
@@ -50,11 +58,11 @@ class Generic_Feature {
 	function setup() {
 
 		// Version Check
-		if( $version = get_option( self::OPTION_VERSION, false ) ) {
+		if( $version = get_option( self::VERSION_OPTION, false ) ) {
 			$this->version = $version;
 		} else {
-			$this->version = GENERIC_FEATURE_VERSION;
-			add_option( self::OPTION_VERSION, $this->version );
+			$this->version = self::VERSION;
+			add_option( self::VERSION_OPTION, $this->version );
 		}
 
 		// Add Meta Boxes
@@ -75,9 +83,9 @@ class Generic_Feature {
 	 */
 	function action_init_check_version() {
 		// Check if the version has changed and if so perform the necessary actions
-		if ( ! isset( $this->version ) || $this->version <  GENERIC_FEATURE_VERSION ) {
+		if ( ! isset( $this->version ) || $this->version <  self::VERSION ) {
 			// Do version upgrade tasks here
-			update_option( self::OPTION_VERSION, GENERIC_FEATURE_VERSION );
+			update_option( self::VERSION_OPTION, self::VERSION );
 		}
 	}
 
@@ -128,8 +136,9 @@ class Generic_Feature {
 			'show_in_menu'    => true,
 			'hierarchical'    => true,
 			'supports'        => array( 'title', 'editor', 'page-attributes', 'thumbnail' ),
+			'exclude_from_search' => true,
 		) );
 	}
 
 } // Class
-Generic_Feature::instance();
+Generic_Feature::get_instance();
