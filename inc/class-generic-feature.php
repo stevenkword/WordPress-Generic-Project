@@ -5,10 +5,17 @@
  **/
 class Generic_Feature {
 
+/*
+As we cannot use PHP5's private and protected keywords for methods or variables, we agree on following rules:
+A protected method or variable name start with a single underscore ("_").
+A private method or variable name start with double underscore ("__").
+*/
+
+
 	// Version
 	const VERSION            = '1.0.0';
 	const VERSION_OPTION     = 'generic_feature_version';
-	const REVISION           = '20131230';
+	const REVISION           = '19700101';
 
 	// Post Types
 	const POST_TYPE_SLUG     = 'generic-feature';
@@ -26,21 +33,12 @@ class Generic_Feature {
 	 * @uses self::setup
 	 * @return self
 	 */
-	public static function get_instance() {
+	public static function instance() {
 		if ( ! is_a( self::$instance, __CLASS__ ) ) {
 			self::$instance = new self;
-
-			self::$instance->setup();
 		}
 		return self::$instance;
 	}
-
-	/**
-	 * Constructor
-	 *
-	 * @since 1.0.0
-	 */
-	private function __construct() { }
 
 	/**
 	 * Clone
@@ -50,13 +48,11 @@ class Generic_Feature {
 	private function __clone() { }
 
 	/**
-	 * Add actions and filters
+	 * Constructor
 	 *
-	 * @uses add_action, add_filter
 	 * @since 1.0.0
 	 */
-	function setup() {
-
+	private function __construct() {
 		// Version Check
 		if( $version = get_option( self::VERSION_OPTION, false ) ) {
 			$this->version = $version;
@@ -141,4 +137,4 @@ class Generic_Feature {
 	}
 
 } // Class
-Generic_Feature::get_instance();
+Generic_Feature::instance();
