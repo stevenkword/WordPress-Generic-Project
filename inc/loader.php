@@ -220,7 +220,7 @@ class Generic_Loader {
 				$plugin_activate_url  = admin_url( 'plugins.php?plugin_status=inactive#' . $dependency[ 'slug' ] );
 				$plugin_activate_link = '<a href="' . esc_url( $plugin_activate_url ) . '">Activate</a>';
 
-				$this->admin_notices[] = __( 'The <em>' . $dependency['description'] . '</em> feature is dependent on the <em>' . $dependency['name'] . '</em> plugin. Please ' . $plugin_install_link . ' and ' . $plugin_activate_link . '.', 'textdomain' );
+				$this->admin_notices[] = __( 'The <em>' . $dependency['description'] . '</em> feature is dependent on the <em>' . $dependency['name'] . '</em> plugin. Please ' . $plugin_install_link . ' and ' . $plugin_activate_link . '.', self::TEXT_DOMAIN );
 
 				$this->depenencies_present = false;
 			}
